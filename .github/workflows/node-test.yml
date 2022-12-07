@@ -22,7 +22,7 @@ jobs:
     # checkout used to copy all the directories
       -uses: actions/checkout@v2
     # setuo-node is used to run a project on particular fixed version.
-      -uses: actions/set-up-node@v2
+      -uses: actions/setup-node@v2
        with:
         node-version: "16.14.0"
       #  to run our project first we havce to install our node module
