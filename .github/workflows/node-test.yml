@@ -24,7 +24,7 @@ jobs:
     # setuo-node is used to run a project on particular fixed version.
       -uses: actions/setup-node@v2
        with:
-        node-version: "16.14.0"
+        node-version: "18.12.1"
       #  to run our project first we havce to install our node module
       -name: Install node_module
        run: yarn
