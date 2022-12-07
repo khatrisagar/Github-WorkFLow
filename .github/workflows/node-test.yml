@@ -1,0 +1,49 @@
+#  to use the CI/CD development we have to use the github actions(personal prefrence use can use other alts)
+
+
+name: my first github action
+# there are a lots of command available in this we can run this on pull on deployment on push tc
+on:[push]
+# we have to crate a jobs
+jobs:
+# here like build-app we can create a multiple jobs but it didn't sure to run in sequence.
+  build-app:
+    runs-on: ubuntu-latest
+    outputs:
+    # from last-step id we export our output
+      text: ${{ steps.lst-step.output.text }}
+  # we can use secrets from github secrets in our file 
+    env:
+    # it could be anything      github secret name   ans in our project we have to use $DATABASE_URL
+      DATABASE_URL: ${{ secrets.DATABASE_URL}}
+    
+    # all the steps are in the form of list/array it runs in sequence one-by one.
+    steps:
+    # checkout used to copy all the directories
+      -uses: actions/checkout@v2
+    # setuo-node is used to run a project on particular fixed version.
+      -uses: actions/set-up-node@v2
+       with:
+        node-version: "16.14.0"
+      #  to run our project first we havce to install our node module
+      -name: Install node_module
+       run: yarn
+      # to start project
+      -name: Build the Project
+       run: yarn build
+      -name: Setup Finish
+    # pass information between diffrent jobs.
+      id: last-step 
+       run: echo "::set-output name=text::heelo-world from build-app"
+  # dependent job run after completing a build-app
+  test-app:
+  # needs is a special key which tells that run after completion of build-app job.
+    needs: buildApp
+    runs-on: ubuntu-latest
+    # get passing info
+    env:
+      MY_JOB_OUTPUT: ${{ needs.buildApp.outputs.text}}
+    steps: 
+    # use passing info
+      -run: echo $MY_JOB_OUTPUT
+
