@@ -3,7 +3,7 @@
 
 name: my first github action
 # there are a lots of command available in this we can run this on pull on deployment on push tc
-on:[push]
+on: [push]
 # we have to crate a jobs
 jobs:
 # here like build-app we can create a multiple jobs but it didn't sure to run in sequence.
